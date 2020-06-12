@@ -26,6 +26,7 @@ Hotel::Hotel(string id_, string name_, int star_, string overview_, string facil
 	this->comments = new Comment_Handler();
 	this->ratings = new Rating_Handler();
 	this->avg_rating = nullptr;
+	this->rooms_data = data;
 }
 
 float Hotel::calculate_average_price(room_data data) {
@@ -49,8 +50,6 @@ void Hotel::print_summary() {
 	string summary = id +" "+ name +" "+ to_string(star) +" "+ city +" "+ to_string(total_rooms_count)+" ";
 	cout<<summary<<fixed<<setprecision(EXPONENT)<<average_price<<endl;
 }
-
-bool sort_by_name(Hotel* one , Hotel* two){ return two->id > one->id;}
 
 void Hotel::print_detail() {
 
@@ -97,8 +96,7 @@ void Hotel::show_comments() {
 	comments->print();
 }
 
-void
-Hotel::rate(string writer, float location, float cleanness, float staff, float facilities,
+void Hotel::rate(string writer, float location, float cleanness, float staff, float facilities,
 		float value_for_money,float overall) {
 
 	ratings->add_rating(writer,location,cleanness,staff,facilities,value_for_money,overall);
@@ -117,4 +115,78 @@ bool Hotel::available_rooms(std::string type,int quantity,range date_) {
 void Hotel::add_avg_rating(Rating *rating) {
 
 	this->avg_rating = rating;
+}
+
+bool sort_by_id(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(sort_order == DESCENDING) return first->id > second->id;
+	else return first->id < second->id;
+}
+
+bool sort_by_name(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->name == second->name) return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->name > second->name;
+	else return first->name < second->name;
+}
+
+bool sort_by_star(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->star == second->star) return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->star > second->star;
+	else return first->star < second->star;
+}
+
+bool sort_by_city(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->city == second->city) return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->city > second->city;
+	else return first->city < second->city;
+}
+
+bool sort_by_s_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->rooms_data.standard.first == second->rooms_data.standard.first)
+		return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->rooms_data.standard.first > second->rooms_data.standard.first;
+	else return first->rooms_data.standard.first < second->rooms_data.standard.first;
+}
+
+bool sort_by_d_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->rooms_data.deluxe.first == second->rooms_data.deluxe.first)
+		return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->rooms_data.deluxe.first > second->rooms_data.deluxe.first;
+	else return first->rooms_data.deluxe.first < second->rooms_data.deluxe.first;
+}
+
+bool sort_by_l_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->rooms_data.luxury.first == second->rooms_data.luxury.first)
+		return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->rooms_data.luxury.first > second->rooms_data.luxury.first;
+	else return first->rooms_data.luxury.first < second->rooms_data.luxury.first;
+}
+
+bool sort_by_p_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->rooms_data.premium.first == second->rooms_data.premium.first)
+		return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->rooms_data.premium.first > second->rooms_data.premium.first;
+	else return first->rooms_data.premium.first < second->rooms_data.premium.first;
+}
+
+bool sort_by_avg_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order){
+
+	if(first->average_price == second->average_price) return sort_by_id(first,second,ASCENDING);
+
+	if(sort_order == DESCENDING) return first->average_price > second->average_price;
+	else return first->average_price < second->average_price;
 }

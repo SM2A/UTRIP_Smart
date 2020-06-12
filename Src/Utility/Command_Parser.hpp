@@ -39,6 +39,7 @@ private:
 	void add_comment(const arguments &args);
 	void add_ratting(const arguments &args);
 	void default_price_filter(const arguments &args);
+	void sort_selection(const arguments &args);
 
 	void get_parser(std::string command_ ,const arguments& args);
 	void post_parser(std::string command_ ,const arguments& args);

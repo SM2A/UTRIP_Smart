@@ -28,6 +28,8 @@
 #define MAX_PRICE "max_price"
 #define ACTIVE "active"
 #define TRUE "true"
+#define ORDER "order"
+#define PROPERTY "property"
 
 using namespace std;
 
@@ -115,6 +117,7 @@ void Command_Parser::post_parser(string command_, const arguments &args) {
 	else if(command_== "comments") add_comment(args);
 	else if(command_== "ratings")add_ratting(args);
 	else if(command_== "default_price_filter") default_price_filter(args);
+	else if(command_== "sort") sort_selection(args);
 	else throw Bad_Request();
 }
 
@@ -218,4 +221,9 @@ void Command_Parser::default_price_filter(const arguments &args) {
 	if(args.size()!=1) throw Bad_Request();
 	bool state = find_arg_val(args, ACTIVE) == TRUE;
 	utrip->default_price_filter(state);
+}
+
+void Command_Parser::sort_selection(const arguments &args) {
+
+	utrip->parse_sort_property(find_arg_val(args,PROPERTY),find_arg_val(args,ORDER));
 }

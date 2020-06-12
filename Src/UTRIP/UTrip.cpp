@@ -40,11 +40,9 @@ void UTrip::creat_user(string user_name, string password, string e_mail) {
 void UTrip::logout() {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
-	for(int i = 0 ; i < FILTERS_SIZE ; i++){
-		delete(filters[i]);
-		filters[i] = nullptr;
-	}
+	reset_filter();
 	logged_in_user = nullptr;
+	reset_sort();
 	cout<<SUCCESS<<endl;
 }
 
@@ -54,6 +52,7 @@ void UTrip::login(string user_name, string password) {
 	try {
 		logged_in_user = users->login(user_name,password);
 		filters[DEFAULT_BUDGET] = new Default_Budget();
+		reset_sort();
 		cout<<SUCCESS<<endl;
 	}catch (exception& e){
 		cout<<e.what()<<endl;
@@ -82,7 +81,7 @@ void UTrip::show_hotel() {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	try {
-		hotels->print(filters,logged_in_user);
+		hotels->print(filters,logged_in_user,sort_order,sort_property);
 	}catch (exception& e){
 		cout<<e.what()<<endl;
 	}
@@ -202,15 +201,46 @@ void UTrip::add_available_room_filter(std::string type, int quantity, range date
 void UTrip::remove_filter() {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
-	for(int i = 0 ; i < FILTERS_SIZE ; i++){
-		delete(filters[i]);
-		filters[i] = nullptr;
-	}
+	reset_filter();
 	cout<<SUCCESS<<endl;
 }
 
 void UTrip::default_price_filter(bool state) {
 
 	filters[DEFAULT_BUDGET]->set_status(state);
+	cout<<SUCCESS<<endl;
+}
+
+void UTrip::reset_sort() {
+
+	sort_order = ASCENDING;
+	sort_property = ID;
+}
+
+void UTrip::reset_filter() {
+
+	for(int i = 0 ; i < FILTERS_SIZE ; i++){
+		delete(filters[i]);
+		filters[i] = nullptr;
+	}
+}
+
+void UTrip::parse_sort_property(std::string property, std::string order) {
+
+	if(order == "ascending") sort_order = ASCENDING;
+	else if(order == "descending") sort_order = DESCENDING;
+	else throw Bad_Request();
+
+	if(property == "id") sort_property = ID;
+	else if(property == "name") sort_property = NAME;
+	else if(property == "star_rating") sort_property = STAR_RATING;
+	else if(property == "city") sort_property = CITY_;
+	else if(property == "standard_room_price") sort_property = S_PRICE;
+	else if(property == "deluxe_room_price") sort_property = D_PRICE;
+	else if(property == "luxury_room_price") sort_property = L_PRICE;
+	else if(property == "premium_room_price") sort_property = P_PRICE;
+	else if(property == "average_room_price") sort_property = AVG_PRICE;
+	else throw Bad_Request();
+
 	cout<<SUCCESS<<endl;
 }

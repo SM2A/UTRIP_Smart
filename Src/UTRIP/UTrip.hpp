@@ -34,6 +34,7 @@ public:
 	void add_available_room_filter(std::string type , int quantity , range date_);
 	void remove_filter();
 	void default_price_filter(bool state);
+	void parse_sort_property(std::string property , std::string order);
 
 private:
 
@@ -41,8 +42,12 @@ private:
 	User_Handler* users;
 	User* logged_in_user;
 	Filter* filters[FILTERS_SIZE];
+	enum SORT_ORDER sort_order;
+	enum SORT_PROPERTY sort_property;
 
 	bool is_user_logged_in();
+	void reset_sort();
+	void reset_filter();
 };
 
 #endif

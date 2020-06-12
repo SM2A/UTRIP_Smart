@@ -23,8 +23,7 @@ public:
 
 	void print_summary();
 	void print_detail();
-	friend bool sort_by_name(Hotel* one , Hotel* two);
-	friend Hotel* Hotel_Handler::find(std::string id);
+
 	int reserve_cost(std::string room_type , int quantity , range date_);
 	std::vector<Room*> reserve(std::string room_type , int quantity , range date_);
 	std::string get_id(){ return id;};
@@ -35,11 +34,22 @@ public:
 			float value_for_money,float overall);
 	void show_average_rating();
 	void add_avg_rating(Rating* rating);
+
 	friend class City;
 	friend class Star_Range;
 	friend class Average_Price;
 	friend class Available_Room;
 	friend class Default_Budget;
+	friend Hotel* Hotel_Handler::find(std::string id);
+	friend bool sort_by_id(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_name(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_star(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_city(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_s_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_d_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_l_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_p_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+	friend bool sort_by_avg_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
 
 private:
 
@@ -57,12 +67,21 @@ private:
 	Comment_Handler* comments;
 	Rating_Handler* ratings;
 	Rating* avg_rating;
+	room_data rooms_data;
 
 	bool available_rooms(std::string type,int quantity,range date_);
 	float calculate_average_price(room_data data);
 
 };
 
-bool sort_by_name(Hotel* one , Hotel* two);
+bool sort_by_id(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_name(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_star(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_city(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_s_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_d_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_l_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_p_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
+bool sort_by_avg_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order);
 
 #endif
