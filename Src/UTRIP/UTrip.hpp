@@ -6,7 +6,7 @@
 #include "../Filter/Filter.hpp"
 #include "../User/User.hpp"
 
-#define FILTERS_SIZE 4
+#define FILTERS_SIZE 5
 
 class UTrip {
 
@@ -33,6 +33,7 @@ public:
 	void add_price_filter(float min , float max);
 	void add_available_room_filter(std::string type , int quantity , range date_);
 	void remove_filter();
+	void default_price_filter(bool state);
 
 private:
 

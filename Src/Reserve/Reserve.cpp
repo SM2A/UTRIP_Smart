@@ -1,6 +1,9 @@
 #include "Reserve.hpp"
 #include <iostream>
+#include <cmath>
 #include "../Utility/Error.hpp"
+
+#define EMPTY 0
 
 using namespace std;
 
@@ -32,4 +35,20 @@ int Reserve::cancel() {
 	this->cancelled = true;
 	for(Room* room : rooms) room->cancel_reserve();
 	return cost;
+}
+
+float Reserve::get_price() {
+
+	if(cancelled)return EMPTY;
+	else return (float)cost/(float)Date().duration(reservation_date);
+}
+
+float Reserve::calc_sigma(float avg_price) {
+
+	if (cancelled) return 0;
+
+	float sum = 0;
+	int one_night_price = get_price()/rooms.size();
+	for (Room* room : rooms) sum += pow((one_night_price - avg_price),2);
+	return sum;
 }

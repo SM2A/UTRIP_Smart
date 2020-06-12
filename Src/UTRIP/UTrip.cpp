@@ -6,6 +6,7 @@
 #include "../Filter/Available_Room.hpp"
 #include "../Filter/City.hpp"
 #include "../Filter/Star_Range.hpp"
+#include "../Filter/Default_Budget.hpp"
 
 #define SUCCESS "OK"
 
@@ -21,6 +22,7 @@ UTrip::UTrip(string hotels_path,string ratings_path) {
 	filters[STAR] = nullptr;
 	filters[PRICE] = nullptr;
 	filters[ROOMS] = nullptr;
+	filters[DEFAULT_BUDGET] = new Default_Budget();
 }
 
 void UTrip::creat_user(string user_name, string password, string e_mail) {
@@ -51,6 +53,7 @@ void UTrip::login(string user_name, string password) {
 	if(is_user_logged_in()) throw Permission_Denied();
 	try {
 		logged_in_user = users->login(user_name,password);
+		filters[DEFAULT_BUDGET] = new Default_Budget();
 		cout<<SUCCESS<<endl;
 	}catch (exception& e){
 		cout<<e.what()<<endl;
@@ -79,7 +82,7 @@ void UTrip::show_hotel() {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	try {
-		hotels->print(filters);
+		hotels->print(filters,logged_in_user);
 	}catch (exception& e){
 		cout<<e.what()<<endl;
 	}
@@ -203,5 +206,11 @@ void UTrip::remove_filter() {
 		delete(filters[i]);
 		filters[i] = nullptr;
 	}
+	cout<<SUCCESS<<endl;
+}
+
+void UTrip::default_price_filter(bool state) {
+
+	filters[DEFAULT_BUDGET]->set_status(state);
 	cout<<SUCCESS<<endl;
 }

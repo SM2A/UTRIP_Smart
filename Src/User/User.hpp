@@ -24,6 +24,7 @@ public:
 	void show_reserves();
 	void add_comment(std::string comment,Hotel* hotel);
 	std::string get_user_name(){ return name;}
+	Reserve_Handler* get_reserves(){ return reservations;}
 
 private:
 

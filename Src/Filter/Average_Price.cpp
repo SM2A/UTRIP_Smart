@@ -15,7 +15,7 @@ Average_Price::Average_Price(float min_, float max_) {
 	this->max = max_;
 }
 
-Hotel_Handler *Average_Price::apply(Hotel_Handler *hotels) {
+Hotel_Handler *Average_Price::apply(Hotel_Handler *hotels,User* user) {
 
 	Hotel_Handler* filter_hotels = new Hotel_Handler();
 	for(Hotel* hotel : hotels->hotels)

@@ -15,6 +15,10 @@ public:
 
 	void print();
 	int cancel();
+	bool is_cancelled(){ return cancelled;}
+	float get_price();
+	int get_quantity(){ return this->quantity;}
+	float calc_sigma(float avg_price);
 
 private:
 

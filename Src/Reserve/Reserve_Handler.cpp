@@ -33,3 +33,31 @@ void Reserve_Handler::reserve(string hotel_id,string room_type, int quantity, in
 	cout<<endl;
 	reserves.push_back(reserve_);
 }
+
+int Reserve_Handler::number_of_reserves() {
+
+	int count = 0;
+	for(Reserve* reserve_ : reserves) if(!reserve_->is_cancelled()) count++;
+	return count;
+}
+
+float Reserve_Handler::calc_avg_price() {
+
+	float sum = 0;
+	for (Reserve* reserve_ : reserves) sum+=reserve_->get_price();
+	return sum/(float)total_reserved_rooms();
+}
+
+int Reserve_Handler::total_reserved_rooms() {
+
+	int count = 0;
+	for(Reserve* reserve_ : reserves) if(!reserve_->is_cancelled()) count += reserve_->get_quantity();
+	return count;
+}
+
+float Reserve_Handler::calc_sigma(float avg_price) {
+
+	float sum = 0;
+	for(Reserve* reserve_ : reserves) sum+=reserve_->calc_sigma(avg_price);
+	return sum;
+}

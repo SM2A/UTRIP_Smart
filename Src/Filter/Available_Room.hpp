@@ -11,7 +11,7 @@ public:
 
 	Available_Room(std::string room_type_ , int quantity , range filter_date_)
 		: room_type(room_type_) , quantity(quantity) , filter_date(filter_date_){}
-	Hotel_Handler* apply(Hotel_Handler* hotels);
+	Hotel_Handler* apply(Hotel_Handler* hotels,User* user);
 
 private:
 

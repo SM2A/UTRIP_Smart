@@ -28,6 +28,7 @@ public:
 	int reserve_cost(std::string room_type , int quantity , range date_);
 	std::vector<Room*> reserve(std::string room_type , int quantity , range date_);
 	std::string get_id(){ return id;};
+	float get_avg_price(){ return average_price;}
 	void add_comment(std::string writer , std::string comment);
 	void show_comments();
 	void rate(std::string writer,float location,float cleanness,float staff,float facilities,
@@ -38,6 +39,7 @@ public:
 	friend class Star_Range;
 	friend class Average_Price;
 	friend class Available_Room;
+	friend class Default_Budget;
 
 private:
 

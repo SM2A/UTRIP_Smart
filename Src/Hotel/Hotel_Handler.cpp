@@ -72,14 +72,15 @@ vector<Hotel*> Hotel_Handler::read_hotel_file(string path) {
 	return hotels_;
 }
 
-void Hotel_Handler::print(Filter* filters[FILTERS_SIZE]) {
+void Hotel_Handler::print(Filter* filters[FILTERS_SIZE],User* user) {
 
 	Hotel_Handler* filtered_hotels = this;
 
-	if(filters[CITY] != nullptr) filtered_hotels = filters[CITY]->apply(filtered_hotels);
-	if(filters[STAR] != nullptr) filtered_hotels = filters[STAR]->apply(filtered_hotels);
-	if(filters[PRICE] != nullptr) filtered_hotels = filters[PRICE]->apply(filtered_hotels);
-	if(filters[ROOMS] != nullptr) filtered_hotels = filters[ROOMS]->apply(filtered_hotels);
+	if(filters[CITY] != nullptr) filtered_hotels = filters[CITY]->apply(filtered_hotels,user);
+	if(filters[STAR] != nullptr) filtered_hotels = filters[STAR]->apply(filtered_hotels,user);
+	if(filters[PRICE] != nullptr) filtered_hotels = filters[PRICE]->apply(filtered_hotels,user);
+	if(filters[ROOMS] != nullptr) filtered_hotels = filters[ROOMS]->apply(filtered_hotels,user);
+	if(filters[PRICE] == nullptr) filtered_hotels = filters[DEFAULT_BUDGET]->apply(filtered_hotels,user);
 
 	if(filtered_hotels->hotels.size() == EMPTY) throw Empty();
 	for(Hotel* hotel : filtered_hotels->hotels)

@@ -26,6 +26,8 @@
 #define MAX_STAR "max_star"
 #define MIN_PRICE "min_price"
 #define MAX_PRICE "max_price"
+#define ACTIVE "active"
+#define TRUE "true"
 
 using namespace std;
 
@@ -112,6 +114,7 @@ void Command_Parser::post_parser(string command_, const arguments &args) {
 	else if(command_== "reserves") reserve(args);
 	else if(command_== "comments") add_comment(args);
 	else if(command_== "ratings")add_ratting(args);
+	else if(command_== "default_price_filter") default_price_filter(args);
 	else throw Bad_Request();
 }
 
@@ -208,4 +211,11 @@ void Command_Parser::remove_filters(const arguments &args) {
 
 	if(args.size()!=0) throw Bad_Request();
 	utrip->remove_filter();
+}
+
+void Command_Parser::default_price_filter(const arguments &args) {
+
+	if(args.size()!=1) throw Bad_Request();
+	bool state = find_arg_val(args, ACTIVE) == TRUE;
+	utrip->default_price_filter(state);
 }
