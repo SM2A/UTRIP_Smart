@@ -15,7 +15,7 @@ class Command_Parser {
 
 public:
 
-	Command_Parser(std::string path);
+	Command_Parser(std::string hotels_path,std::string ratings_path);
 	void get_command(std::string command);
 
 private:

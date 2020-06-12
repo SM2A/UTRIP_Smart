@@ -9,7 +9,10 @@ public:
 
 	Rating(std::string writer_ , float location_,float cleanness_,float staff_,
 			float facilities_,float value_for_money_,float overall_);
+	Rating(float location_,float cleanness_,float staff_,
+	       float facilities_,float value_for_money_,float overall_);
 	friend class Rating_Handler;
+	void print();
 
 private:
 

@@ -25,6 +25,7 @@ Hotel::Hotel(string id_, string name_, int star_, string overview_, string facil
 	this->average_price = calculate_average_price(data);
 	this->comments = new Comment_Handler();
 	this->ratings = new Rating_Handler();
+	this->avg_rating = nullptr;
 }
 
 float Hotel::calculate_average_price(room_data data) {
@@ -105,10 +106,15 @@ Hotel::rate(string writer, float location, float cleanness, float staff, float f
 
 void Hotel::show_average_rating() {
 
-	ratings->print_average();
+	avg_rating->print();
 }
 
 bool Hotel::available_rooms(std::string type,int quantity,range date_) {
 
 	return rooms->have_available_rooms(type,quantity,date_);
+}
+
+void Hotel::add_avg_rating(Rating *rating) {
+
+	this->avg_rating = rating;
 }

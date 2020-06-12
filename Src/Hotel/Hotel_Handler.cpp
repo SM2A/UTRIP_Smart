@@ -12,14 +12,15 @@
 
 using namespace std;
 
-Hotel_Handler::Hotel_Handler(string path) {
-	this->hotels = read_hotel_file(path);
+Hotel_Handler::Hotel_Handler(string hotels_path,string ratings_path) {
+
+	this->hotels = read_hotel_file(hotels_path);
+	add_avg_rating(ratings_path);
 }
 
 Hotel_Handler::Hotel_Handler(const Hotel_Handler* hotel_handler){
 
 	for(Hotel* hotel : hotel_handler->hotels) {
-		//Hotel* new_hotel = ;
 		this->hotels.push_back(hotel);
 	}
 }
@@ -92,8 +93,29 @@ void Hotel_Handler::print(std::string id) {
 
 Hotel *Hotel_Handler::find(std::string id) {
 
-	for(Hotel* hotel : hotels)
-		if(hotel->id == id) return hotel;
-
+	auto hotel = find_if(hotels.begin(),hotels.end(),[=](Hotel* hotel_){ return id==hotel_->id;});
+	if(hotel!=hotels.end()) return *hotel;
 	throw Not_Found();
+}
+
+void Hotel_Handler::add_avg_rating(std::string path){
+
+	ifstream file(path);
+	string first_row , row;
+	getline(file,first_row);
+
+	while (getline(file,row)){
+		stringstream stream(row);
+		string hotel_id,location,cleanliness,staff,facilities,value_for_money,overall;
+		getline(stream,hotel_id,COLUMN_DELIMITER);
+		getline(stream,location,COLUMN_DELIMITER);
+		getline(stream,cleanliness,COLUMN_DELIMITER);
+		getline(stream,staff,COLUMN_DELIMITER);
+		getline(stream,facilities,COLUMN_DELIMITER);
+		getline(stream,value_for_money,COLUMN_DELIMITER);
+		getline(stream,overall,COLUMN_DELIMITER);
+		Rating* rating = new Rating(stof(location),stof(cleanliness),stof(staff),
+				stof(facilities),stof(value_for_money),stof(overall));
+		find(hotel_id)->add_avg_rating(rating);
+	}
 }

@@ -15,7 +15,7 @@ class Hotel_Handler {
 public:
 
 	Hotel_Handler(){}
-	Hotel_Handler(std::string path);
+	Hotel_Handler(std::string hotels_path,std::string ratings_path);
 	Hotel_Handler(const Hotel_Handler* hotel_handler);
 	void print(Filter* filters[FILTERS_SIZE]);
 	void print(std::string id);
@@ -28,6 +28,7 @@ public:
 private:
 
 	std::vector<Hotel*> read_hotel_file(std::string path);
+	void add_avg_rating(std::string path);
 	std::vector<Hotel*> hotels;
 };
 

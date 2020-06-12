@@ -6,6 +6,7 @@
 #include "Hotel_Handler.hpp"
 #include "../Opinion/Comment/Comment_Handler.hpp"
 #include "../Opinion/Rating/Rating_Handler.hpp"
+#include "../Opinion/Rating/Rating.hpp"
 
 struct coordinates{
 	double longitude;
@@ -32,6 +33,7 @@ public:
 	void rate(std::string writer,float location,float cleanness,float staff,float facilities,
 			float value_for_money,float overall);
 	void show_average_rating();
+	void add_avg_rating(Rating* rating);
 	friend class City;
 	friend class Star_Range;
 	friend class Average_Price;
@@ -52,6 +54,7 @@ private:
 	float average_price;
 	Comment_Handler* comments;
 	Rating_Handler* ratings;
+	Rating* avg_rating;
 
 	bool available_rooms(std::string type,int quantity,range date_);
 	float calculate_average_price(room_data data);

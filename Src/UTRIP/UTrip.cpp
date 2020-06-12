@@ -11,9 +11,9 @@
 
 using namespace std;
 
-UTrip::UTrip(string path) {
+UTrip::UTrip(string hotels_path,string ratings_path) {
 
-	hotels = new Hotel_Handler(path);
+	hotels = new Hotel_Handler(hotels_path,ratings_path);
 	users = new User_Handler();
 	logged_in_user = nullptr;
 

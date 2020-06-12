@@ -29,9 +29,9 @@
 
 using namespace std;
 
-Command_Parser::Command_Parser(string path) {
+Command_Parser::Command_Parser(string hotels_path,string ratings_path) {
 
-	utrip = new UTrip(path);
+	utrip = new UTrip(hotels_path,ratings_path);
 }
 
 void Command_Parser::method_check(string method_) {

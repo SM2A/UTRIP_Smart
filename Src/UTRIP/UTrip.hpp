@@ -12,7 +12,7 @@ class UTrip {
 
 public:
 
-	UTrip(std::string path);
+	UTrip(std::string hotels_path,std::string ratings_path);
 	void cancel_reservation(int id);
 	void creat_user(std::string user_name , std::string password , std::string e_mail);
 	void logout();
