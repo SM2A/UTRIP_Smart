@@ -207,6 +207,7 @@ void UTrip::remove_filter() {
 
 void UTrip::default_price_filter(bool state) {
 
+	if(!is_user_logged_in()) throw Permission_Denied();
 	filters[DEFAULT_BUDGET]->set_status(state);
 	cout<<SUCCESS<<endl;
 }
@@ -226,6 +227,8 @@ void UTrip::reset_filter() {
 }
 
 void UTrip::parse_sort_property(std::string property, std::string order) {
+
+	if(!is_user_logged_in()) throw Permission_Denied();
 
 	if(order == "ascending") sort_order = ASCENDING;
 	else if(order == "descending") sort_order = DESCENDING;

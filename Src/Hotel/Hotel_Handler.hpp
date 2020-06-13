@@ -26,7 +26,7 @@ public:
 			enum SORT_PROPERTY sort_property);
 	void print(std::string id);
 	Hotel* find(std::string id);
-	void sort_(enum SORT_ORDER sort_order,enum SORT_PROPERTY sort_property);
+	void sort_(Hotel_Handler* filtered_hotels,enum SORT_ORDER sort_order,enum SORT_PROPERTY sort_property);
 
 	friend class City;
 	friend class Star_Range;

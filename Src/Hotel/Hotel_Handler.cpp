@@ -82,7 +82,7 @@ void Hotel_Handler::print(Filter* filters[FILTERS_SIZE],User* user,enum SORT_ORD
 	if(filters[PRICE] == nullptr) filtered_hotels = filters[DEFAULT_BUDGET]->apply(filtered_hotels,user);
 
 	if(filtered_hotels->hotels.size() == EMPTY) throw Empty();
-	sort_(sort_order,sort_property);
+	sort_(filtered_hotels,sort_order,sort_property);
 	for(Hotel* hotel : filtered_hotels->hotels)
 		hotel->print_summary();
 }
@@ -121,33 +121,34 @@ void Hotel_Handler::add_avg_rating(std::string path){
 	}
 }
 
-void Hotel_Handler::sort_(enum SORT_ORDER sort_order,enum SORT_PROPERTY sort_property) {
+void Hotel_Handler::sort_(Hotel_Handler *filtered_hotels, enum SORT_ORDER sort_order,
+		enum SORT_PROPERTY sort_property) {
 
-	if(sort_property == ID)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_id(first,second,sort_order);});
-	else if(sort_property == NAME)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_name(first,second,sort_order);});
-	else if(sort_property == STAR_RATING)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_star(first,second,sort_order);});
-	else if(sort_property == CITY_)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_city(first,second,sort_order);});
-	else if(sort_property == S_PRICE)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_s_price(first,second,sort_order);});
-	else if(sort_property == D_PRICE)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_d_price(first,second,sort_order);});
-	else if(sort_property == L_PRICE)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_l_price(first,second,sort_order);});
-	else if(sort_property == P_PRICE)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_p_price(first,second,sort_order);});
-	else if(sort_property == AVG_PRICE)
-		sort(hotels.begin(),hotels.end(),[&,sort_order](Hotel* first,Hotel* second)
-		{ return sort_by_avg_price(first,second,sort_order);});
+	if (sort_property == ID)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_id(first, second, sort_order); });
+	else if (sort_property == NAME)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_name(first, second, sort_order); });
+	else if (sort_property == STAR_RATING)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_star(first, second, sort_order); });
+	else if (sort_property == CITY_)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_city(first, second, sort_order); });
+	else if (sort_property == S_PRICE)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_s_price(first, second, sort_order); });
+	else if (sort_property == D_PRICE)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_d_price(first, second, sort_order); });
+	else if (sort_property == L_PRICE)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_l_price(first, second, sort_order); });
+	else if (sort_property == P_PRICE)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_p_price(first, second, sort_order); });
+	else if (sort_property == AVG_PRICE)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_avg_price(first, second, sort_order); });
 }

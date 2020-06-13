@@ -28,6 +28,7 @@
 #define MAX_PRICE "max_price"
 #define ACTIVE "active"
 #define TRUE "true"
+#define FALSE "false"
 #define ORDER "order"
 #define PROPERTY "property"
 
@@ -219,7 +220,10 @@ void Command_Parser::remove_filters(const arguments &args) {
 void Command_Parser::default_price_filter(const arguments &args) {
 
 	if(args.size()!=1) throw Bad_Request();
-	bool state = find_arg_val(args, ACTIVE) == TRUE;
+	bool state ;
+	if(find_arg_val(args, ACTIVE) == TRUE) state = true;
+	else if(find_arg_val(args, ACTIVE) == FALSE) state = false;
+	else throw Bad_Request();
 	utrip->default_price_filter(state);
 }
 
