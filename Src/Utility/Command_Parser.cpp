@@ -74,8 +74,8 @@ void Command_Parser::get_command(string command) {
 
 string Command_Parser::find_arg_val(const arguments& args,string arg) {
 
-	for(argument_value av : args)
-		if(av.first==arg) return av.second;
+	auto item = args.find(arg);
+	if(item != args.end()) return item->second;
 	throw Bad_Request();
 }
 
@@ -104,6 +104,7 @@ void Command_Parser::get_parser(string command_, const arguments &args) {
 	else if(command_== "reserves") show_reserves(args);
 	else if(command_== "comments") show_hotel_comments(args);
 	else if(command_== "ratings") show_hotel_ratting(args);
+	else if(command_== "manual_weights") show_manual_weights(args);
 	else throw Bad_Request();
 }
 
@@ -119,6 +120,7 @@ void Command_Parser::post_parser(string command_, const arguments &args) {
 	else if(command_== "ratings")add_ratting(args);
 	else if(command_== "default_price_filter") default_price_filter(args);
 	else if(command_== "sort") sort_selection(args);
+	else if(command_== "manual_weights") manual_weights(args);
 	else throw Bad_Request();
 }
 
@@ -230,4 +232,27 @@ void Command_Parser::default_price_filter(const arguments &args) {
 void Command_Parser::sort_selection(const arguments &args) {
 
 	utrip->parse_sort_property(find_arg_val(args,PROPERTY),find_arg_val(args,ORDER));
+}
+
+void Command_Parser::manual_weights(const arguments &args) {
+
+	if(args.size()==1){
+		bool state;
+		if(find_arg_val(args,ACTIVE)==TRUE) state = true;
+		if(find_arg_val(args,ACTIVE)==FALSE) state = false;
+		else throw Bad_Request();
+		utrip->manual_weights_state(state);
+	}else if(args.size()==6) {
+		bool state;
+		if (find_arg_val(args, ACTIVE) == TRUE) state = true;
+		else throw Bad_Request();
+		utrip->add_manual_weights(state,stof(find_arg_val(args,LOCATION)),stof(find_arg_val(args,CLEANLINESS)),
+	stof(find_arg_val(args,STAFF)),stof(find_arg_val(args,FACILITIES)),stof(find_arg_val(args,VALUE_FOR_MONEY)));
+	}else throw Bad_Request();
+}
+
+void Command_Parser::show_manual_weights(const arguments &args) {
+
+	if(args.size()!=0) throw Bad_Request();
+	utrip->show_manual_weights();
 }

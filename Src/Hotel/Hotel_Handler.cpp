@@ -72,7 +72,7 @@ vector<Hotel*> Hotel_Handler::read_hotel_file(string path) {
 }
 
 void Hotel_Handler::print(Filter* filters[FILTERS_SIZE],User* user,enum SORT_ORDER sort_order,
-		enum SORT_PROPERTY sort_property) {
+		enum SORT_PROPERTY sort_property,Manual_Weights* manual_weights) {
 
 	Hotel_Handler* filtered_hotels = this;
 	if(filters[CITY] != nullptr) filtered_hotels = filters[CITY]->apply(filtered_hotels,user);
@@ -82,7 +82,7 @@ void Hotel_Handler::print(Filter* filters[FILTERS_SIZE],User* user,enum SORT_ORD
 	if(filters[PRICE] == nullptr) filtered_hotels = filters[DEFAULT_BUDGET]->apply(filtered_hotels,user);
 
 	if(filtered_hotels->hotels.size() == EMPTY) throw Empty();
-	sort_(filtered_hotels,sort_order,sort_property);
+	sort_(filtered_hotels,sort_order,sort_property,manual_weights,user);
 	for(Hotel* hotel : filtered_hotels->hotels)
 		hotel->print_summary();
 }
@@ -122,7 +122,7 @@ void Hotel_Handler::add_avg_rating(std::string path){
 }
 
 void Hotel_Handler::sort_(Hotel_Handler *filtered_hotels, enum SORT_ORDER sort_order,
-		enum SORT_PROPERTY sort_property) {
+		enum SORT_PROPERTY sort_property,Manual_Weights* manual_weights,User* user) {
 
 	if (sort_property == ID)
 		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
@@ -151,4 +151,8 @@ void Hotel_Handler::sort_(Hotel_Handler *filtered_hotels, enum SORT_ORDER sort_o
 	else if (sort_property == AVG_PRICE)
 		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
 		     [&, sort_order](Hotel *first, Hotel *second) { return sort_by_avg_price(first, second, sort_order); });
+	else if (sort_property == RATING_PERSONAL)
+		sort(filtered_hotels->hotels.begin(), filtered_hotels->hotels.end(),
+		     [&, sort_order,manual_weights,user](Hotel *first, Hotel *second)
+		     { return sort_by_manual_weight(first, second, sort_order,user,manual_weights);});
 }

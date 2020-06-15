@@ -6,6 +6,7 @@
 #include "../Reserve/Reserve_Handler.hpp"
 #include "User_Handler.hpp"
 #include "../Utility/Date.hpp"
+#include "../Opinion/Rating/Rating_Handler.hpp"
 
 class Hotel;
 
@@ -23,6 +24,8 @@ public:
 	void reserve(Hotel* hotel , std::string room_type , int quantity , range date_ ,int price);
 	void show_reserves();
 	void add_comment(std::string comment,Hotel* hotel);
+	void save_rating(std::string hotel_id , Rating* rating);
+	float do_rated(Hotel* hotel);
 	std::string get_user_name(){ return name;}
 	Reserve_Handler* get_reserves(){ return reservations;}
 
@@ -34,6 +37,7 @@ private:
 	float credit;
 	std::vector<float> credit_report;
 	Reserve_Handler* reservations;
+	Rating_Handler* ratings;
 
 	void pay_for_reserve(int price);
 	friend User* User_Handler::find(std::string user_name);

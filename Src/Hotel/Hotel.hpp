@@ -30,10 +30,11 @@ public:
 	float get_avg_price(){ return average_price;}
 	void add_comment(std::string writer , std::string comment);
 	void show_comments();
-	void rate(std::string writer,float location,float cleanness,float staff,float facilities,
+	Rating* rate(std::string writer,float location,float cleanness,float staff,float facilities,
 			float value_for_money,float overall);
 	void show_average_rating();
 	void add_avg_rating(Rating* rating);
+	float calc_overall(float location_,float cleanness_,float staff_,float facilities_,float value_for_money_);
 
 	friend class City;
 	friend class Star_Range;

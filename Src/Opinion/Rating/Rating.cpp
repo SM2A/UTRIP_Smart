@@ -48,3 +48,14 @@ void Rating::print() {
 	std::cout<<"value for money: "<<this->value_for_money<<std::endl;
 	std::cout<<"overall rating: "<<this->overall<<std::endl;
 }
+
+float Rating::calc_overall(float location_,float cleanness_,float staff_,
+                   float facilities_,float value_for_money_){
+	float sum = 0;
+	sum+=(this->location*location_);
+	sum+=(this->cleanness*cleanness_);
+	sum+=(this->staff*staff_);
+	sum+=(this->facilities*facilities_);
+	sum+=(this->value_for_money*value_for_money_);
+	return sum;
+}

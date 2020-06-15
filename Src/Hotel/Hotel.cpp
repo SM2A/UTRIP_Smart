@@ -96,10 +96,10 @@ void Hotel::show_comments() {
 	comments->print();
 }
 
-void Hotel::rate(string writer, float location, float cleanness, float staff, float facilities,
+Rating* Hotel::rate(string writer, float location, float cleanness, float staff, float facilities,
 		float value_for_money,float overall) {
 
-	ratings->add_rating(writer,location,cleanness,staff,facilities,value_for_money,overall);
+	return ratings->add_rating(writer,location,cleanness,staff,facilities,value_for_money,overall);
 }
 
 void Hotel::show_average_rating() {
@@ -189,4 +189,9 @@ bool sort_by_avg_price(Hotel* first , Hotel* second , enum SORT_ORDER sort_order
 
 	if(sort_order == DESCENDING) return first->average_price > second->average_price;
 	else return first->average_price < second->average_price;
+}
+
+float Hotel::calc_overall(float location_,float cleanness_,float staff_,float facilities_,float value_for_money_) {
+
+	return avg_rating->calc_overall(location_,cleanness_,staff_,facilities_,value_for_money_);
 }

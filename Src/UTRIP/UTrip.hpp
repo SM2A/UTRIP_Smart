@@ -2,6 +2,7 @@
 #define UTRIP_HPP
 
 #include "../Hotel/Hotel_Handler.hpp"
+#include "../User/Manual_Weights.hpp"
 #include "../User/User_Handler.hpp"
 #include "../Filter/Filter.hpp"
 #include "../User/User.hpp"
@@ -35,6 +36,10 @@ public:
 	void remove_filter();
 	void default_price_filter(bool state);
 	void parse_sort_property(std::string property , std::string order);
+	void manual_weights_state(bool active);
+	void add_manual_weights(bool active,float location,float cleanliness,float staff,
+			float facilities,float value_for_money);
+	void show_manual_weights();
 
 private:
 
@@ -42,6 +47,7 @@ private:
 	User_Handler* users;
 	User* logged_in_user;
 	Filter* filters[FILTERS_SIZE];
+	Manual_Weights* manual_weights;
 	enum SORT_ORDER sort_order;
 	enum SORT_PROPERTY sort_property;
 

@@ -1,44 +1,36 @@
 #include "Rating_Handler.hpp"
 #include "Rating.hpp"
-#include "../../Utility/Error.hpp"
-#include <iostream>
-#include <iomanip>
+#include <algorithm>
 
 #define EXPONENT 2
 
 void Rating_Handler::delete_previous_rating(std::string writer_) {
 
-	for (int i = 0; i < ratings.size() ; ++i) {
-		if(ratings[i]->writer == writer_) ratings.erase(ratings.begin()+i);
-	}
+	ratings.erase(std::remove_if(ratings.begin(),ratings.end(),
+			[writer_](Rating* rating){return rating->writer == writer_;}),
+		ratings.end());
 }
 
-void Rating_Handler::add_rating(std::string writer_, float location_, float cleanness_, float staff_, float facilities_,
+Rating* Rating_Handler::add_rating(std::string writer_, float location_, float cleanness_, float staff_, float facilities_,
                                 float value_for_money_, float overall_) {
 
 	Rating* rating = new Rating(writer_,location_,cleanness_,staff_,facilities_,value_for_money_,overall_);
 	delete_previous_rating(writer_);
 	ratings.push_back(rating);
+	return rating;
 }
 
-void Rating_Handler::print_average() {
+void Rating_Handler::add_rating(std::string hotel_id, Rating* rating) {
 
-	if(ratings.size() == 0) throw No_Rating();
-	int ratings_count = ratings.size();
-	float location_sum=0,cleanness_sum=0,staff_sum=0,facilities_sum=0,value_for_money_sum=0,overall_sum=0;
-	for(Rating* rating : ratings){
-		location_sum+=rating->location;
-		cleanness_sum+=rating->cleanness;
-		staff_sum+=rating->staff;
-		facilities_sum+=rating->facilities;
-		value_for_money_sum+=rating->value_for_money;
-		overall_sum+=rating->overall;
-	}
-	std::cout<<std::fixed<<std::setprecision(EXPONENT);
-	std::cout<<"location: "<<location_sum/(float)ratings_count<<std::endl;
-	std::cout<<"cleanliness: "<<cleanness_sum/(float)ratings_count<<std::endl;
-	std::cout<<"staff: "<<staff_sum/(float)ratings_count<<std::endl;
-	std::cout<<"facilities: "<<facilities_sum/(float)ratings_count<<std::endl;
-	std::cout<<"value for money: "<<value_for_money_sum/(float)ratings_count<<std::endl;
-	std::cout<<"overall rating: "<<overall_sum/(float)ratings_count<<std::endl;
+	auto item = _ratings_.find(hotel_id);
+	if(item != _ratings_.end()) _ratings_.erase(item);
+	_ratings_.insert(std::pair<std::string,Rating*>(hotel_id,rating));
 }
+
+float Rating_Handler::do_rated(std::string hotel_id) {
+
+	auto item = _ratings_.find(hotel_id);
+	if(item != _ratings_.end()) return item->second->overall;
+	return -1;
+}
+

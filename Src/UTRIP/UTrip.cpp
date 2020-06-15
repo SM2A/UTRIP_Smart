@@ -17,6 +17,7 @@ UTrip::UTrip(string hotels_path,string ratings_path) {
 	hotels = new Hotel_Handler(hotels_path,ratings_path);
 	users = new User_Handler();
 	logged_in_user = nullptr;
+	manual_weights = new Manual_Weights();
 
 	filters[CITY] = nullptr;
 	filters[STAR] = nullptr;
@@ -43,6 +44,7 @@ void UTrip::logout() {
 	reset_filter();
 	logged_in_user = nullptr;
 	reset_sort();
+	manual_weights->change_state(false);
 	cout<<SUCCESS<<endl;
 }
 
@@ -81,7 +83,7 @@ void UTrip::show_hotel() {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	try {
-		hotels->print(filters,logged_in_user,sort_order,sort_property);
+		hotels->print(filters,logged_in_user,sort_order,sort_property,manual_weights);
 	}catch (exception& e){
 		cout<<e.what()<<endl;
 	}
@@ -126,35 +128,37 @@ void UTrip::cancel_reservation(int id) {
 	logged_in_user->cancel_reservation(id);
 }
 
-void UTrip::add_comment(std::string hotel_id,std::string comment) {
+void UTrip::add_comment(string hotel_id,string comment) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	logged_in_user->add_comment(comment,hotels->find(hotel_id));
 }
 
-void UTrip::show_hotel_comment(std::string hotel_id) {
+void UTrip::show_hotel_comment(string hotel_id) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	Hotel* hotel = hotels->find(hotel_id);
 	hotel->show_comments();
 }
 
-void UTrip::add_rating(std::string hotel_id, float location, float cleanness, float staff, float facilities,
+void UTrip::add_rating(string hotel_id, float location, float cleanness, float staff, float facilities,
                        float value_for_money, float overall) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	Hotel* hotel = hotels->find(hotel_id);
+	Rating* rating =
 	hotel->rate(logged_in_user->get_user_name(),location,cleanness,staff,facilities,value_for_money,overall);
+	logged_in_user->save_rating(hotel->get_id(),rating);
 	cout<<SUCCESS<<endl;
 }
 
-void UTrip::show_hotel_rating(std::string hotel_id) {
+void UTrip::show_hotel_rating(string hotel_id) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	hotels->find(hotel_id)->show_average_rating();
 }
 
-void UTrip::add_city_filter(std::string city) {
+void UTrip::add_city_filter(string city) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	if(filters[CITY] == nullptr) filters[CITY] = new City(city);
@@ -187,7 +191,7 @@ void UTrip::add_price_filter(float min, float max) {
 	cout<<SUCCESS<<endl;
 }
 
-void UTrip::add_available_room_filter(std::string type, int quantity, range date_) {
+void UTrip::add_available_room_filter(string type, int quantity, range date_) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	if(filters[ROOMS] == nullptr) filters[ROOMS] = new Available_Room(type,quantity,date_);
@@ -226,7 +230,7 @@ void UTrip::reset_filter() {
 	}
 }
 
-void UTrip::parse_sort_property(std::string property, std::string order) {
+void UTrip::parse_sort_property(string property, string order) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 
@@ -243,7 +247,28 @@ void UTrip::parse_sort_property(std::string property, std::string order) {
 	else if(property == "luxury_room_price") sort_property = L_PRICE;
 	else if(property == "premium_room_price") sort_property = P_PRICE;
 	else if(property == "average_room_price") sort_property = AVG_PRICE;
+	else if(property == "rating_personal") sort_property = RATING_PERSONAL;
 	else throw Bad_Request();
 
+	cout<<SUCCESS<<endl;
+}
+
+void UTrip::show_manual_weights() {
+
+	if(!is_user_logged_in()) throw Permission_Denied();
+	manual_weights->print();
+}
+
+void UTrip::manual_weights_state(bool active) {
+
+	if(!is_user_logged_in()) throw Permission_Denied();
+	manual_weights->change_state(active);
+}
+
+void UTrip::add_manual_weights(bool active, float location, float cleanliness, float staff, float facilities,
+                               float value_for_money) {
+
+	if(!is_user_logged_in()) throw Permission_Denied();
+	manual_weights->add_manual_weight(active,location,cleanliness,staff,facilities,value_for_money);
 	cout<<SUCCESS<<endl;
 }

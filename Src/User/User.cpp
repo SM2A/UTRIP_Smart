@@ -16,6 +16,7 @@ User::User(string user_name, string password_, string e_mail) {
 	email = e_mail;
 	credit = INIT_CREDIT;
 	reservations = new Reserve_Handler();
+	ratings = new Rating_Handler();
 	credit_report.push_back(credit);
 }
 
@@ -79,4 +80,14 @@ void User::add_comment(string comment , Hotel* hotel) {
 
 	hotel->add_comment(name,comment);
 	cout<<SUCCESS<<endl;
+}
+
+void User::save_rating(string hotel_id, Rating *rating) {
+
+	ratings->add_rating(hotel_id,rating);
+}
+
+float User::do_rated(Hotel* hotel) {
+
+	return ratings->do_rated(hotel->get_id());
 }
