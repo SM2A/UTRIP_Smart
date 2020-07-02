@@ -25,7 +25,8 @@ public:
 	void show_reserves();
 	void add_comment(std::string comment,Hotel* hotel);
 	void save_rating(std::string hotel_id , Rating* rating);
-	float do_rated(Hotel* hotel);
+	double do_rated(Hotel* hotel);
+	bool do_have_enough_rating();
 	std::string get_user_name(){ return name;}
 	Reserve_Handler* get_reserves(){ return reservations;}
 

@@ -12,7 +12,7 @@
 #define SUCCESS "OK"
 #define EXPONENT 2
 
-bool Manual_Weights::is_in_range(float value) {
+bool Manual_Weights::is_in_range(double value) {
 
 	if (value > UPPER_BOUND) throw Bad_Request();
 	if (value < LOWER_BOUND) throw Bad_Request();
@@ -41,8 +41,8 @@ void Manual_Weights::print() {
 }
 
 void
-Manual_Weights::add_manual_weight(bool active_, float location_, float cleanliness_, float staff_, float facilities_,
-                                  float value_for_money_) {
+Manual_Weights::add_manual_weight(bool active_, double location_, double cleanliness_, double staff_, double facilities_,
+                                  double value_for_money_) {
 
 	this->active = active_;
 	if(is_in_range(location_)) this->location = location_;
@@ -52,23 +52,23 @@ Manual_Weights::add_manual_weight(bool active_, float location_, float cleanline
 	if(is_in_range(value_for_money_)) this->value_for_money = value_for_money_;
 }
 
-float Manual_Weights::output_value(float value) {
+double Manual_Weights::output_value(double value) {
 
 	value*=100;
 	return trunc(value)/100;
 }
 
-float Manual_Weights::calc_overall(Hotel *hotel, User* user) {
+double Manual_Weights::calc_overall(Hotel *hotel, User* user) {
 
 	if(user->do_rated(hotel) != -1) return user->do_rated(hotel);
-	float weigh_sum = location+cleanliness+staff+facilities+value_for_money;
+	double weigh_sum = location+cleanliness+staff+facilities+value_for_money;
 	return hotel->calc_overall(location,cleanliness,staff,facilities,value_for_money)/weigh_sum;
 }
 
 bool sort_by_manual_weight(Hotel* first , Hotel* second , enum SORT_ORDER sort_order,User* user,Manual_Weights* weights){
 
-	float first_ = weights->calc_overall(first,user);
-	float second_ = weights->calc_overall(second,user);
+	double first_ = weights->calc_overall(first,user);
+	double second_ = weights->calc_overall(second,user);
 	if(first_ == second_) return sort_by_id(first,second,ASCENDING);
 
 	if(sort_order == DESCENDING) return first_ > second_;

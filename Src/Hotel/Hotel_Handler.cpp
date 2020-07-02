@@ -115,8 +115,8 @@ void Hotel_Handler::add_avg_rating(std::string path){
 		getline(stream,facilities,COLUMN_DELIMITER);
 		getline(stream,value_for_money,COLUMN_DELIMITER);
 		getline(stream,overall,COLUMN_DELIMITER);
-		Rating* rating = new Rating(stof(location),stof(cleanliness),stof(staff),
-				stof(facilities),stof(value_for_money),stof(overall));
+		Rating* rating = new Rating(stod(location),stod(cleanliness),stod(staff),
+				stod(facilities),stod(value_for_money),stod(overall));
 		find(hotel_id)->add_avg_rating(rating);
 	}
 }

@@ -54,6 +54,7 @@ private:
 	bool is_user_logged_in();
 	void reset_sort();
 	void reset_filter();
+	void personal_rating();
 };
 
 #endif

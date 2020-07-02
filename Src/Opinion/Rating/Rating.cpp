@@ -8,8 +8,8 @@
 #define LOWER_BOUND 1
 #define NO_WRITER "__NULL__"
 
-Rating::Rating(std::string writer_, float location_, float cleanness_, float staff_, float facilities_,
-               float value_for_money_, float overall_) {
+Rating::Rating(std::string writer_, double location_, double cleanness_, double staff_, double facilities_,
+               double value_for_money_, double overall_) {
 
 	this->writer = writer_;
 	if(is_in_range(location_)) this->location = location_;
@@ -20,7 +20,7 @@ Rating::Rating(std::string writer_, float location_, float cleanness_, float sta
 	if(is_in_range(overall_)) this->overall = overall_;
 }
 
-Rating::Rating(float location_,float cleanness_,float staff_,float facilities_,float value_for_money_,float overall_){
+Rating::Rating(double location_,double cleanness_,double staff_,double facilities_,double value_for_money_,double overall_){
 
 	this->writer = NO_WRITER;
 	if(is_in_range(location_)) this->location = location_;
@@ -31,7 +31,7 @@ Rating::Rating(float location_,float cleanness_,float staff_,float facilities_,f
 	if(is_in_range(overall_)) this->overall = overall_;
 }
 
-bool Rating::is_in_range(float value) {
+bool Rating::is_in_range(double value) {
 
 	if (value > UPPER_BOUND) throw Bad_Request();
 	if (value < LOWER_BOUND) throw Bad_Request();
@@ -49,9 +49,9 @@ void Rating::print() {
 	std::cout<<"overall rating: "<<this->overall<<std::endl;
 }
 
-float Rating::calc_overall(float location_,float cleanness_,float staff_,
-                   float facilities_,float value_for_money_){
-	float sum = 0;
+double Rating::calc_overall(double location_,double cleanness_,double staff_,
+                   double facilities_,double value_for_money_){
+	double sum = 0;
 	sum+=(this->location*location_);
 	sum+=(this->cleanness*cleanness_);
 	sum+=(this->staff*staff_);

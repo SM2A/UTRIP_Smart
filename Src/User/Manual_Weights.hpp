@@ -10,23 +10,24 @@ class Manual_Weights {
 public:
 
 	Manual_Weights(){}
-	void add_manual_weight(bool active_,float location_,float cleanliness_,float staff_,
-	                       float facilities_,float value_for_money_);
+	void add_manual_weight(bool active_,double location_,double cleanliness_,double staff_,
+	                       double facilities_,double value_for_money_);
 	void change_state(bool active_);
 	void print();
-	float calc_overall(Hotel* hotel,User* user);
+	double calc_overall(Hotel* hotel,User* user);
+	bool get_state(){ return active;}
 
 private:
 
 	bool active;
-	float location;
-	float cleanliness;
-	float staff;
-	float facilities;
-	float value_for_money;
+	double location;
+	double cleanliness;
+	double staff;
+	double facilities;
+	double value_for_money;
 
-	bool is_in_range(float value);
-	float output_value(float value);
+	bool is_in_range(double value);
+	double output_value(double value);
 };
 
 bool sort_by_manual_weight(Hotel* first , Hotel* second , enum SORT_ORDER sort_order,User* user,Manual_Weights* weights);

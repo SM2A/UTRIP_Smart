@@ -234,10 +234,6 @@ void UTrip::parse_sort_property(string property, string order) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 
-	if(order == "ascending") sort_order = ASCENDING;
-	else if(order == "descending") sort_order = DESCENDING;
-	else throw Bad_Request();
-
 	if(property == "id") sort_property = ID;
 	else if(property == "name") sort_property = NAME;
 	else if(property == "star_rating") sort_property = STAR_RATING;
@@ -247,7 +243,12 @@ void UTrip::parse_sort_property(string property, string order) {
 	else if(property == "luxury_room_price") sort_property = L_PRICE;
 	else if(property == "premium_room_price") sort_property = P_PRICE;
 	else if(property == "average_room_price") sort_property = AVG_PRICE;
-	else if(property == "rating_personal") sort_property = RATING_PERSONAL;
+	//else if(property == "rating_personal") sort_property = RATING_PERSONAL;
+	else if(property == "rating_personal") personal_rating();
+	else throw Bad_Request();
+
+	if(order == "ascending") sort_order = ASCENDING;
+	else if(order == "descending") sort_order = DESCENDING;
 	else throw Bad_Request();
 
 	cout<<SUCCESS<<endl;
@@ -271,4 +272,13 @@ void UTrip::add_manual_weights(bool active, float location, float cleanliness, f
 	if(!is_user_logged_in()) throw Permission_Denied();
 	manual_weights->add_manual_weight(active,location,cleanliness,staff,facilities,value_for_money);
 	cout<<SUCCESS<<endl;
+}
+
+void UTrip::personal_rating() {
+
+	if(manual_weights->get_state()) sort_property = RATING_PERSONAL;
+	else {
+		if (!logged_in_user->do_have_enough_rating()) throw Insufficient_Ratings();
+
+	}
 }

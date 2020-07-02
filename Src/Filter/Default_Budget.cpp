@@ -29,6 +29,6 @@ bool Default_Budget::check_reservations(Reserve_Handler *reserves) {
 double Default_Budget::calc_standard_deviation(Reserve_Handler* reserves , double avg_price) {
 
 	int sample_size = reserves->total_reserved_rooms()-1;
-	float sigma = reserves->calc_sigma(avg_price);
+	double sigma = reserves->calc_sigma(avg_price);
 	return sqrt(sigma/(double)sample_size);
 }

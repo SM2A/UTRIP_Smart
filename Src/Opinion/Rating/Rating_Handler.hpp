@@ -15,9 +15,10 @@ public:
 
 	Rating_Handler(){}
 	void add_rating(std::string hotel_id , Rating* rating);
-	Rating* add_rating(std::string writer_ , float location_,float cleanness_,float staff_,
-	                float facilities_,float value_for_money_,float overall_);
-	float do_rated(std::string hotel_id);
+	Rating* add_rating(std::string writer_ , double location_,double cleanness_,double staff_,
+	                double facilities_,double value_for_money_,double overall_);
+	double do_rated(std::string hotel_id);
+	int get_ratings_count(){ return _ratings_.size();}
 
 private:
 

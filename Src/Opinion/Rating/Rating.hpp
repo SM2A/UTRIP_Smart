@@ -7,26 +7,26 @@ class Rating {
 
 public:
 
-	Rating(std::string writer_ , float location_,float cleanness_,float staff_,
-			float facilities_,float value_for_money_,float overall_);
-	Rating(float location_,float cleanness_,float staff_,
-	       float facilities_,float value_for_money_,float overall_);
-	float calc_overall(float location_,float cleanness_,float staff_,
-	       float facilities_,float value_for_money_);
+	Rating(std::string writer_ , double location_,double cleanness_,double staff_,
+			double facilities_,double value_for_money_,double overall_);
+	Rating(double location_,double cleanness_,double staff_,
+	       double facilities_,double value_for_money_,double overall_);
+	double calc_overall(double location_,double cleanness_,double staff_,
+	       double facilities_,double value_for_money_);
 	friend class Rating_Handler;
 	void print();
 
 private:
 
 	std::string writer;
-	float location;
-	float cleanness;
-	float staff;
-	float facilities;
-	float value_for_money;
-	float overall;
+	double location;
+	double cleanness;
+	double staff;
+	double facilities;
+	double value_for_money;
+	double overall;
 
-	bool is_in_range(float value);
+	bool is_in_range(double value);
 };
 
 #endif

@@ -6,6 +6,7 @@
 #define INIT_CREDIT 0
 #define SUCCESS "OK"
 #define CANCEL_RESERVE 2
+#define ENOUGH_RATING 10
 
 using namespace std;
 
@@ -87,7 +88,12 @@ void User::save_rating(string hotel_id, Rating *rating) {
 	ratings->add_rating(hotel_id,rating);
 }
 
-float User::do_rated(Hotel* hotel) {
+double User::do_rated(Hotel* hotel) {
 
 	return ratings->do_rated(hotel->get_id());
+}
+
+bool User::do_have_enough_rating() {
+
+	return ratings->get_ratings_count() >= ENOUGH_RATING;
 }

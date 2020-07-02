@@ -204,7 +204,7 @@ void Command_Parser::add_filter(const arguments &args) {
 		if((itr->first == MIN_STAR)||(itr->first == MAX_STAR))
 			utrip->add_star_filter(stoi(find_arg_val(args,MIN_STAR)),stoi(find_arg_val(args,MAX_STAR)));
 		else
-			utrip->add_price_filter(stoi(find_arg_val(args,MIN_PRICE)),stoi(find_arg_val(args,MAX_PRICE)));
+			utrip->add_price_filter(stof(find_arg_val(args,MIN_PRICE)),stof(find_arg_val(args,MAX_PRICE)));
 	} else if(args.size() == 4) {
 		range date_;
 		date_.start.set_day(stoi(find_arg_val(args,CHECK_IN)));
@@ -239,7 +239,7 @@ void Command_Parser::manual_weights(const arguments &args) {
 	if(args.size()==1){
 		bool state;
 		if(find_arg_val(args,ACTIVE)==TRUE) state = true;
-		if(find_arg_val(args,ACTIVE)==FALSE) state = false;
+		else if(find_arg_val(args,ACTIVE)==FALSE) state = false;
 		else throw Bad_Request();
 		utrip->manual_weights_state(state);
 	}else if(args.size()==6) {

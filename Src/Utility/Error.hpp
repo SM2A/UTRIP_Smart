@@ -38,4 +38,9 @@ public:
 	virtual const char* what() const throw(){ return "No Rating";}
 };
 
+class Insufficient_Ratings : public std::exception{
+public:
+	virtual const char* what() const throw(){ return "Insufficient Ratings";}
+};
+
 #endif
