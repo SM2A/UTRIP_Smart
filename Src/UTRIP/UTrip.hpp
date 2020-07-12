@@ -40,6 +40,7 @@ public:
 	void add_manual_weights(bool active,float location,float cleanliness,float staff,
 			float facilities,float value_for_money);
 	void show_manual_weights();
+	void show_estimated_weights();
 
 private:
 
@@ -48,6 +49,7 @@ private:
 	User* logged_in_user;
 	Filter* filters[FILTERS_SIZE];
 	Manual_Weights* manual_weights;
+	Manual_Weights* estimated;
 	enum SORT_ORDER sort_order;
 	enum SORT_PROPERTY sort_property;
 

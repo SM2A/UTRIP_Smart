@@ -1,6 +1,5 @@
 #include "Manual_Weights.hpp"
 #include "../Utility/Error.hpp"
-#include "../Hotel/Hotel_Handler.hpp"
 #include "../Hotel/Hotel.hpp"
 #include "User.hpp"
 #include <iostream>
@@ -11,6 +10,7 @@
 #define LOWER_BOUND 1
 #define SUCCESS "OK"
 #define EXPONENT 2
+#define ESTIMATED "estimated"
 
 bool Manual_Weights::is_in_range(double value) {
 
@@ -22,7 +22,7 @@ bool Manual_Weights::is_in_range(double value) {
 void Manual_Weights::change_state(bool active_) {
 
 	this->active = active_;
-	std::cout<<SUCCESS<<std::endl;
+	//std::cout<<SUCCESS<<std::endl;
 }
 
 void Manual_Weights::print() {
@@ -61,8 +61,20 @@ double Manual_Weights::output_value(double value) {
 double Manual_Weights::calc_overall(Hotel *hotel, User* user) {
 
 	if(user->do_rated(hotel) != -1) return user->do_rated(hotel);
-	double weigh_sum = location+cleanliness+staff+facilities+value_for_money;
-	return hotel->calc_overall(location,cleanliness,staff,facilities,value_for_money)/weigh_sum;
+	double weight_sum = location+cleanliness+staff+facilities+value_for_money;
+	return hotel->calc_overall(location,cleanliness,staff,facilities,value_for_money)/weight_sum;
+}
+
+void Manual_Weights::print(std::string name) {
+
+	if (name == ESTIMATED)
+		std::cout << std::fixed << std::setprecision(EXPONENT)
+		          << "location " << output_value(location)
+		          << " cleanliness " << output_value(cleanliness)
+		          << " staff " << output_value(staff)
+		          << " facilities " << output_value(facilities)
+		          << " value_for_money " << output_value(value_for_money)
+		          << std::endl;
 }
 
 bool sort_by_manual_weight(Hotel* first , Hotel* second , enum SORT_ORDER sort_order,User* user,Manual_Weights* weights){

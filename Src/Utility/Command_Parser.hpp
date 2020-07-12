@@ -42,6 +42,7 @@ private:
 	void sort_selection(const arguments &args);
 	void manual_weights(const arguments &args);
 	void show_manual_weights(const arguments &args);
+	void show_estimated_weights(const arguments &args);
 
 	void get_parser(std::string command_ ,const arguments& args);
 	void post_parser(std::string command_ ,const arguments& args);

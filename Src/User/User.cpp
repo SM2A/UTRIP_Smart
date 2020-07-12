@@ -97,3 +97,8 @@ bool User::do_have_enough_rating() {
 
 	return ratings->get_ratings_count() >= ENOUGH_RATING;
 }
+
+Manual_Weights *User::calc_estimated_weight() {
+
+	return ratings->calc_estimated_weight();
+}

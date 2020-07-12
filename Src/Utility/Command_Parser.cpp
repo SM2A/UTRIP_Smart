@@ -105,6 +105,7 @@ void Command_Parser::get_parser(string command_, const arguments &args) {
 	else if(command_== "comments") show_hotel_comments(args);
 	else if(command_== "ratings") show_hotel_ratting(args);
 	else if(command_== "manual_weights") show_manual_weights(args);
+	else if(command_== "estimated_weights") show_estimated_weights(args);
 	else throw Bad_Request();
 }
 
@@ -255,4 +256,10 @@ void Command_Parser::show_manual_weights(const arguments &args) {
 
 	if(args.size()!=0) throw Bad_Request();
 	utrip->show_manual_weights();
+}
+
+void Command_Parser::show_estimated_weights(const arguments &args) {
+
+	if(args.size()!=0) throw Bad_Request();
+	utrip->show_estimated_weights();
 }

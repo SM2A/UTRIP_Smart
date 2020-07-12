@@ -9,6 +9,7 @@
 #include "../Filter/Default_Budget.hpp"
 
 #define SUCCESS "OK"
+#define ESTIMATED "estimated"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ UTrip::UTrip(string hotels_path,string ratings_path) {
 	users = new User_Handler();
 	logged_in_user = nullptr;
 	manual_weights = new Manual_Weights();
+	estimated = new Manual_Weights();
 
 	filters[CITY] = nullptr;
 	filters[STAR] = nullptr;
@@ -83,7 +85,7 @@ void UTrip::show_hotel() {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	try {
-		hotels->print(filters,logged_in_user,sort_order,sort_property,manual_weights);
+		hotels->print(filters,logged_in_user,sort_order,sort_property,manual_weights,estimated);
 	}catch (exception& e){
 		cout<<e.what()<<endl;
 	}
@@ -149,6 +151,7 @@ void UTrip::add_rating(string hotel_id, float location, float cleanness, float s
 	Rating* rating =
 	hotel->rate(logged_in_user->get_user_name(),location,cleanness,staff,facilities,value_for_money,overall);
 	logged_in_user->save_rating(hotel->get_id(),rating);
+	estimated->change_state(false);
 	cout<<SUCCESS<<endl;
 }
 
@@ -243,7 +246,6 @@ void UTrip::parse_sort_property(string property, string order) {
 	else if(property == "luxury_room_price") sort_property = L_PRICE;
 	else if(property == "premium_room_price") sort_property = P_PRICE;
 	else if(property == "average_room_price") sort_property = AVG_PRICE;
-	//else if(property == "rating_personal") sort_property = RATING_PERSONAL;
 	else if(property == "rating_personal") personal_rating();
 	else throw Bad_Request();
 
@@ -264,6 +266,7 @@ void UTrip::manual_weights_state(bool active) {
 
 	if(!is_user_logged_in()) throw Permission_Denied();
 	manual_weights->change_state(active);
+	cout<<SUCCESS<<endl;
 }
 
 void UTrip::add_manual_weights(bool active, float location, float cleanliness, float staff, float facilities,
@@ -276,9 +279,22 @@ void UTrip::add_manual_weights(bool active, float location, float cleanliness, f
 
 void UTrip::personal_rating() {
 
+	if(!is_user_logged_in()) throw Permission_Denied();
 	if(manual_weights->get_state()) sort_property = RATING_PERSONAL;
 	else {
 		if (!logged_in_user->do_have_enough_rating()) throw Insufficient_Ratings();
-
+		if(!estimated->get_state()){
+			delete (estimated);
+			estimated = logged_in_user->calc_estimated_weight();
+			estimated->change_state(true);
+			sort_property = RATING_PERSONAL;
+		}
 	}
+}
+
+void UTrip::show_estimated_weights() {
+
+	if(!is_user_logged_in()) throw Permission_Denied();
+	if (!logged_in_user->do_have_enough_rating()) throw Insufficient_Ratings();
+	estimated->print(ESTIMATED);
 }

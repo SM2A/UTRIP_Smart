@@ -9,6 +9,7 @@
 #include "../Opinion/Rating/Rating_Handler.hpp"
 
 class Hotel;
+class Manual_Weights;
 
 class User {
 
@@ -27,6 +28,7 @@ public:
 	void save_rating(std::string hotel_id , Rating* rating);
 	double do_rated(Hotel* hotel);
 	bool do_have_enough_rating();
+	Manual_Weights* calc_estimated_weight();
 	std::string get_user_name(){ return name;}
 	Reserve_Handler* get_reserves(){ return reservations;}
 
