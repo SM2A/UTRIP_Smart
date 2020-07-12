@@ -6,7 +6,7 @@
 #define INIT_CREDIT 0
 #define SUCCESS "OK"
 #define CANCEL_RESERVE 2
-#define ENOUGH_RATING 10
+#define ENOUGH_RATING 5
 
 using namespace std;
 

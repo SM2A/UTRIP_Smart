@@ -9,7 +9,7 @@ class Manual_Weights {
 
 public:
 
-	Manual_Weights(){}
+	Manual_Weights(){this->active = false ;}
 	void add_manual_weight(bool active_,double location_,double cleanliness_,double staff_,
 	                       double facilities_,double value_for_money_);
 	void change_state(bool active_);
