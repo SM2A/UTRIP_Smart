@@ -22,7 +22,6 @@ bool Manual_Weights::is_in_range(double value) {
 void Manual_Weights::change_state(bool active_) {
 
 	this->active = active_;
-	//std::cout<<SUCCESS<<std::endl;
 }
 
 void Manual_Weights::print() {
