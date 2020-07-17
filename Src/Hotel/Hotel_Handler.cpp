@@ -79,7 +79,7 @@ void Hotel_Handler::print(Filter* filters[FILTERS_SIZE],User* user,enum SORT_ORD
 	if(filters[STAR] != nullptr) filtered_hotels = filters[STAR]->apply(filtered_hotels,user);
 	if(filters[PRICE] != nullptr) filtered_hotels = filters[PRICE]->apply(filtered_hotels,user);
 	if(filters[ROOMS] != nullptr) filtered_hotels = filters[ROOMS]->apply(filtered_hotels,user);
-	if(filters[PRICE] == nullptr) filtered_hotels = filters[DEFAULT_BUDGET]->apply(filtered_hotels,user);
+	if(filters[PRICE] != nullptr) filtered_hotels = filters[DEFAULT_BUDGET]->apply(filtered_hotels,user);
 
 	if(filtered_hotels->hotels.size() == EMPTY) throw Empty();
 	sort_(filtered_hotels,sort_order,sort_property,manual_weights,estimated,user);
